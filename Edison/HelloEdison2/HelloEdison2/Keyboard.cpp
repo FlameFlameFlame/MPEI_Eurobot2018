@@ -38,7 +38,7 @@ int Keyboard::takeControl(Platform* plt) {
 }
 
 void Keyboard::releaseDevice(Platform* plt) {
-	uint8_t cmd[3] = { 0,0,0 };
+	int cmd[3] = { 0,0,0 };
 	controlling->getCmdFromController(cmd);
 	controlling = NULL;
 }
@@ -46,13 +46,23 @@ void Keyboard::releaseDevice(Platform* plt) {
 void Keyboard::control() {
 	using namespace std;
 
-	std::cout << "Enter three parameters: speed, direction and rotational speed" << std::endl;
+	//std::cout << "Enter three parameters: speed, direction and rotational speed" << std::endl;
 
-	uint8_t cmd[3] = { 0, 0, 0 };
-	for (int i = 0; i < 3; ++i) {
-		cout << "Enter parameter " << i << endl;
+	int cmd[3] = { 0, 0, 0 };
+	/*for (int i = 0; i < 3; ++i) {
+		//cout << "Enter parameter " << i << endl;
 		cin >> cmd[i];
-	}
+	}*/
+
+	cin >> cmd[0];
+	cout << cmd[0] << endl;
+
+	cin >> cmd[1];
+	cout << cmd[1] << endl;
+
+	cin >> cmd[2];
+	cout << cmd[2] << endl;
+	controlling->getCmdFromController(cmd);
 	/*switch (getch()) {
 		case 'w': case 'W':
 			cmd[0] = 1;

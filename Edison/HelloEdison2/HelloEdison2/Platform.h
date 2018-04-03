@@ -1,5 +1,5 @@
 #pragma once
-#define I2C_BUS 0
+#define I2C_BUS 1
 
 #include <ncurses.h>
 #include <mraa.hpp>
@@ -22,13 +22,13 @@ private:
 
 	bool initialized;
 
-	uint8_t* parseCmdFromController(uint8_t data[3]);
+	void parseCmdFromController(int data[3]);
 	//void sendI2C(uint8_t i2ccmd[4]);
 	mraa::I2c i2c = mraa::I2c(I2C_BUS);
 public:
 	//void stop();
 
-	int getCmdFromController(uint8_t cmd[3]);
+	int getCmdFromController(int cmd[3]);
 
 	int initializeDevice();
 	int getStatus() { return this->status; }
