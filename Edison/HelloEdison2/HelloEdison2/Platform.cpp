@@ -1,0 +1,150 @@
+#include "Platform.h"
+#include <mraa.hpp>
+#include <iostream>
+#include <math.h>
+
+#define I2C_BUS 0
+#define PLATFORM_ADDRESS 0x04
+
+//messages to platform
+#define HELLO_BYTE 0xAA
+#define FORWARD_BYTE 0x01
+#define LEFT_BYTE 0x02
+#define RIGHT_BYTE 0x03
+#define BACKWARS_BYTE 0x04
+#define ROT_LEFT_BYTE 0x05
+#define ROT_RIGHT_BYTE 0x06
+#define STOP_BYTE 0xFF
+
+Platform::Platform() {
+	/*if (!(i2c = new mraa::I2c(I2C_BUS))) {
+		printw("Error! Couldn't initialize I2C bus! \n");
+		status = -1;
+	}
+	else {
+		i2c->address(PLATFORM_ADDRESS);
+		i2c->writeByte(HELLO_BYTE);
+		uint8_t data = i2c->readByte();
+
+		if (data = !0xAA) {
+			printw("Error! Platform not responding \n");
+			status = -1;
+		}
+		else {
+			status = 0;
+			printw("Plaform initialized! \n");
+		}
+	}*/
+}
+
+Platform::~Platform() {
+	delete &status;
+}
+
+//To initialize platform we're sending it HELLO_BYTE then waiting for it to responce with HELLO_BYTE
+int Platform::initializeDevice()
+{
+	using namespace std;
+
+	isSelfControlled = false;
+	//cout << "Initializing platform" << endl;
+	i2c = mraa::I2c(I2C_BUS);
+	i2c.address(PLATFORM_ADDRESS);
+	i2c.writeByte(HELLO_BYTE);
+	uint8_t data[4];
+	i2c.read(data, 4);
+
+	if (data[0] != 0xAA) {
+		cout << "Cannot connect with Arduino. It sent " << data[0] << endl;
+		initialized = false;
+		status = -1;
+	}
+	else {
+		initialized = true;
+		cout << "Platform initialized!" << endl;
+		status = 0;
+	}
+	return status;
+}
+
+
+//gets command from controller
+//first byte is action, second is Vx, third is Vy, fourth is omega
+int Platform::getCmdFromController(uint8_t cmd[3]) {
+	uint8_t* i2ccmd = parseCmdFromController(cmd);
+	if (initialized) {
+		i2c.write(i2ccmd, 7);
+	}
+	return this->status;
+	return 0;
+}
+
+//I2C message to platform consists of 7 bytes: 0xFF, speed sign, speed, direction sign, direction, rotational speed sign, rotational speed
+uint8_t* Platform::parseCmdFromController(uint8_t data[3]) {
+	/*switch (data[0]) {
+	case 0: {
+		temp[0] = 0;
+		temp[1] = 0;
+		temp[2] = 0;
+		temp[3] = 0;
+
+		this->status = 0;
+		break; }
+	case 1: {
+		temp[0] = 0xFF;
+		temp[1] = data[1];
+		temp[2] = data[2];
+		temp[3] = data[3]; 
+
+		this->status = 1;
+		break; }
+	default:
+		std::cout << "Unrecognizable command to platform " << std::endl;
+		temp[0] = 0;
+		temp[1] = 0;
+		temp[2] = 0;
+		temp[3] = 0;
+
+		this->status = -1;
+		break;
+	}*/
+
+	int8_t Vx = data[1] * cos(data[2]);
+	int8_t Vy = data[1] * sin(data[2]);
+
+	uint8_t i2cmsg[7];
+	if (data[0] && data[1] && data[2])
+	{
+		i2cmsg[0] = 0xFF;
+		//Vx
+		i2cmsg[1] = (Vx > 0);
+		i2cmsg[2] =  Vx;
+		//Vy
+		i2cmsg[3] = (Vy > 0);
+		i2cmsg[4] =  Vy;
+		//rotational_speed
+		i2cmsg[5] = (data[3] > 0);
+		i2cmsg[5] =  data[3];
+
+		status = 1;
+	}
+	else {
+		for (int i = 0; i < 7; i++)
+			i2cmsg[i] = 0;
+		status = 0;
+	}
+	return i2cmsg;
+}
+
+/*void Platform::sendI2C(uint8_t i2ccmd[7]) {
+	if (initialized) {
+		i2c.write((uint8_t*)i2ccmd, 7);
+	}
+}*/
+
+/*void Platform::stop() {
+	if (initialized) {
+		i2c.write((uint8_t*)(0, 0, 0, 0), 4);
+		status = 0;
+	}
+}*/
