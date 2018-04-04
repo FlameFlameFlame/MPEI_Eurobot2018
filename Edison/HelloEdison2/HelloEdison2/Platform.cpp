@@ -16,24 +16,7 @@
 #define STOP_BYTE 0xFF
 
 Platform::Platform() {
-	/*if (!(i2c = new mraa::I2c(I2C_BUS))) {
-		printw("Error! Couldn't initialize I2C bus! \n");
-		status = -1;
-	}
-	else {
-		i2c->address(PLATFORM_ADDRESS);
-		i2c->writeByte(HELLO_BYTE);
-		uint8_t data = i2c->readByte();
 
-		if (data = !0xAA) {
-			printw("Error! Platform not responding \n");
-			status = -1;
-		}
-		else {
-			status = 0;
-			printw("Plaform initialized! \n");
-		}
-	}*/
 }
 
 Platform::~Platform() {
@@ -76,37 +59,7 @@ int Platform::getCmdFromController(int cmd[3]) {
 
 //I2C message to platform consists of 7 bytes: 0xFF, speed sign, speed, direction sign, direction, rotational speed sign, rotational speed
 void Platform::parseCmdFromController(int data[3]) {
-	/*switch (data[0]) {
-	case 0: {
-		temp[0] = 0;
-		temp[1] = 0;
-		temp[2] = 0;
-		temp[3] = 0;
-
-		this->status = 0;
-		break; }
-	case 1: {
-		temp[0] = 0xFF;
-		temp[1] = data[1];
-		temp[2] = data[2];
-		temp[3] = data[3]; 
-
-		this->status = 1;
-		break; }
-	default:
-		std::cout << "Unrecognizable command to platform " << std::endl;
-		temp[0] = 0;
-		temp[1] = 0;
-		temp[2] = 0;
-		temp[3] = 0;
-
-		this->status = -1;
-		break;
-	}*/
-
-	float angle = data[1] * 3.1415 / 180;
-
-	std::cout << "angle " << angle << "\n";
+	double angle = data[1] * 3.1415 / 180;
 
 	int8_t Vx = data[0] * cos(angle);
 	int8_t Vy = data[0] * sin(angle);
@@ -136,16 +89,3 @@ void Platform::parseCmdFromController(int data[3]) {
 		i2c.write(i2cmsg, 7);
 	}
 }
-
-/*void Platform::sendI2C(uint8_t i2ccmd[7]) {
-	if (initialized) {
-		i2c.write((uint8_t*)i2ccmd, 7);
-	}
-}*/
-
-/*void Platform::stop() {
-	if (initialized) {
-		i2c.write((uint8_t*)(0, 0, 0, 0), 4);
-		status = 0;
-	}
-}*/
