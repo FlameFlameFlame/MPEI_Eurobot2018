@@ -5,20 +5,13 @@
 
 Ultrasonic ULTRAs[ultrasonic1(), ultrasonic2(), ultrasonic3(), ultrasonic4()];
 
-void obstacle_evade (float ULTRAs[4], byte obstacle[4])
+void transfers (float )
   {
-    for (int i = 1; i <= 4; i++)
-    {
-      if ULTRAs[i] < 6
-        obstacle[i] = 1;
-      else
-        obstacle[i] = 0;
-    }
+    write(ULTRAs[4])
   }
 
 void setup() 
 {
-  byte obstacle[0, 0, 0, 0];
   Serial.begin (9600); // подключаем монитор порта
   Wire.begin(5);
 }
@@ -36,7 +29,7 @@ void loop() {
  // Serial.print("AMP: ");  // выводим расстояние в монитор порта
  // Serial.println(AMP);
  // delay(1000);
- obstacle_evade (ULTRAs, obstacle);
+ onRequest(transfers)
  Wire.write (obstacle);
  
 }
