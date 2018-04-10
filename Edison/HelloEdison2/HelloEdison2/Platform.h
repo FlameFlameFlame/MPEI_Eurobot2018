@@ -1,5 +1,5 @@
 #pragma once
-#define I2C_BUS 1
+#define I2C_PLT_BUS 1
 
 #include <ncurses.h>
 #include <mraa.hpp>
@@ -19,7 +19,7 @@ private:
 	bool initialized;
 
 	void parseCmdFromController(int data[3]);
-	mraa::I2c i2c = mraa::I2c(I2C_BUS);
+	mraa::I2c i2c = mraa::I2c(I2C_PLT_BUS);
 public:
 	int getCmdFromController(int cmd[3]);
 

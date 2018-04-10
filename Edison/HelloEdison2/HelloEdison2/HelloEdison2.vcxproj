@@ -65,10 +65,12 @@
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Navigation.h" />
     <ClInclude Include="Platform.h" />
   </ItemGroup>
   <ItemGroup>
