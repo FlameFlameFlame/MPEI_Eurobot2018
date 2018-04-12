@@ -1,4 +1,5 @@
 #pragma once
+
 #define I2C_NAV_BUS 1
 #define NAV_ADR 5
 #define US_ADR 6
@@ -13,7 +14,15 @@ class UltrasonicNavigation :
 public:
 	UltrasonicNavigation();
 	~UltrasonicNavigation();
+  
+	int takeControl();
+	void releaseDevice();
+	void releaseAll() { }
 
+	int initializeController();
+
+private:
+	Platform* controlling;
 	int takeControl(Platform* p);
 	void releaseDevice();
 	void releaseAll() { };
