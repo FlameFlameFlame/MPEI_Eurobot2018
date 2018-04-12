@@ -16,7 +16,7 @@
 #define STOP_BYTE 0xFF
 
 Platform::Platform() {
-
+	
 }
 
 Platform::~Platform() {
@@ -59,7 +59,7 @@ int Platform::getCmdFromController(int cmd[3]) {
 
 //I2C message to platform consists of 7 bytes: 0xFF, speed sign, speed, direction sign, direction, rotational speed sign, rotational speed
 void Platform::parseCmdFromController(int data[3]) {
-	double angle = data[1] * 3.1415 / 180;
+	double angle = data[1] * M_PI / 180;
 
 	int8_t Vx = data[0] * cos(angle);
 	int8_t Vy = data[0] * sin(angle);
@@ -89,3 +89,4 @@ void Platform::parseCmdFromController(int data[3]) {
 		i2c.write(i2cmsg, 7);
 	}
 }
+
