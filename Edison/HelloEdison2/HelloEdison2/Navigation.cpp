@@ -63,6 +63,7 @@ void Navigation::setDestination(float xnew, float ynew) {
 
 		cout << "Rotating" << endl;
 		rotate(angle(x_next, y_next));
+		cout << "Moving to point " << cur_point << "\n";
 		moveToNextPoint();
 		cur_point++;
 	}
@@ -104,8 +105,15 @@ float Navigation::angle(float x1, float y1) {
 }
 
 void Navigation::rotate(float d_angle) {
-	float cur_angle = readArduino()[2];
+	float angle0 = readArduino()[2];
+	float new_angle = angle0 + d_angle;
+
+	int cmd[3] = { 0,0,0 };
+	int rot_speed = 255;
 	
-	if (abs(int(d_angle)) > 0.05)
-		
+	while (abs_float(d_angle) > 0.05) {
+		cmd[2] = (int)d_angle;
+		controlling->getCmdFromController(cmd);
+		d_angle = new_angle - readArduino()[2];
+	}
 }

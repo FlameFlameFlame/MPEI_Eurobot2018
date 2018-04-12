@@ -31,8 +31,15 @@ public:
 	int initializeController();
 
 	void setDestination(float xnew, float ynew);
-	void stop();
+	//void stop();
 private:
+
+	float abs_float(float x) {
+		if (x >= 0)
+			return x;
+		else 
+			return -x;
+	}
 	int cur_point = 0;
 	vector<Point> route;
 
