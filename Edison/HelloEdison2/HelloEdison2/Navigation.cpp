@@ -33,6 +33,7 @@ vector<float> Navigation::readArduino() {
 	vector<float> result(3);
 	i2c.address(NAV_ADR);
 	uint8_t message[12];
+	i2c.read(message, 12);
 
 	union u_tag {
 		uint8_t bytes[4];

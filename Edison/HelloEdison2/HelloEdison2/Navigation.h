@@ -40,6 +40,7 @@ private:
 		else 
 			return -x;
 	}
+
 	int cur_point = 0;
 	vector<Point> route;
 
@@ -50,7 +51,7 @@ private:
 	
 	float x, y, angle;
 	void rotate(float d_angle);
-	void moveToNextPoint();
+	void moveToNextPoint() {//TODO: WRITE THIS SHIT ACTUALLY}
 	float angle(float x1, float y1);
 
 	Platform* controlling;

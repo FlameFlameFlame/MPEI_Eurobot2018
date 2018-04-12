@@ -67,11 +67,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="UltrasonicNavigation.cpp" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="UltrasonicNavigation.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
