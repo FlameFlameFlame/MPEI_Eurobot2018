@@ -15,7 +15,7 @@ public:
 	UltrasonicNavigation();
 	~UltrasonicNavigation();
   
-	int takeControl();
+	int takeControl(Platform* p);
 	void releaseDevice();
 	void releaseAll() { }
 
@@ -31,7 +31,6 @@ private:
 	int initializeController() { }
 	std::vector<int> readUSArduino();
 
-private:
 	mraa::I2c i2c = mraa::I2c(I2C_NAV_BUS);
 	Platform* controlling;
 	std::vector<float> readArduino();

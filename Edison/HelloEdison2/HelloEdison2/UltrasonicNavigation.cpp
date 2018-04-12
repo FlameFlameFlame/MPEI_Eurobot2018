@@ -64,7 +64,7 @@ std::vector<float> UltrasonicNavigation::readArduino() {
 		uint8_t bytes[4];
 		float fval;
 	} u;
-h
+
 	//converting massive of bytes to float using union u
 	for (int i = 0; i < 3; i++)
 	{
