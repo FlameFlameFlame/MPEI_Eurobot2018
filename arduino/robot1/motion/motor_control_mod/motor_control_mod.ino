@@ -26,10 +26,13 @@ uint8_t VelocityControl3 [7] = {0xFF, 0, 0, 1, 30, 0, 0};
 uint8_t VelocityControl4 [7] = {0xFF, 1, 0, 0, 30, 0, 0};
 uint8_t VelocityControl5 [7] = {0xFF, 1, 0, 0, 0, 1, 30};
 uint8_t VelocityControl6 [7] = {0xFF, 1, 0, 0, 0, 0, 30};
-uint8_t VelocityControl7 [7] = {0xFF, 1, 255, 1, 255, 0, 0};
+uint8_t VelocityControl7 [7] = {0xFF, 1, 30, 1, 30, 1, 0};
+uint8_t VelocityControl8 [7] = {0xFF, 0, 30, 0, 30, 0, 0};
+uint8_t VelocityControl9 [7] = {0xFF, 1, 30, 0, 0, 1, 30};
+uint8_t VelocityControl10 [7] = {0xFF, 1, 0, 1, 30, 1, 30};
 
 //I2C message request handler
-/*void returnMessage()
+void returnMessage()
 {
   int i = 0;
   while(0 < Wire.available())
@@ -61,7 +64,7 @@ void sendGreeting()
   else
     Serial.println ("Master requested data, but I have no data to send!");
 }
-*/
+
 //Alpha and Omega
 void Motor_control (uint8_t VelocityControl [7]) 
 {
@@ -85,7 +88,11 @@ void Motor_control (uint8_t VelocityControl [7])
  //calculation speeds for each motor 
  if (VelocityControl [0] == 0xFF)
  {
-   if ((Vx > 0) && (Vy > 0))
+  motor_speeds[0] = int (Vy + omega*L);
+  motor_speeds[1] = int (Vx - omega*L);
+  motor_speeds[2] = int (Vy - omega*L);
+  motor_speeds[3] = int (Vx + omega*L);
+  /* if ((Vx > 0) && (Vy > 0))
    {
   motor_speeds[0] = int(sqrt(pow(Vx,2)+pow(Vy,2)-2*omega*L*(Vy*cos(2.35619)-Vx*sin(2.35619))+pow(omega,2)*pow(L,2)) / R);
   motor_speeds[1] = 0;
@@ -119,22 +126,23 @@ void Motor_control (uint8_t VelocityControl [7])
   motor_speeds[1] = int(sqrt(pow(Vx,2)+pow(Vy,2)-2*omega*L*(Vy*cos(0.785398)-Vx*sin(0.785398))+pow(omega,2)*pow(L,2)) / R);
   motor_speeds[2] = int(sqrt(pow(Vx,2)+pow(Vy,2)-2*omega*L*(Vy*cos(3.92699)-Vx*sin(3.92699))+pow(omega,2)*pow(L,2)) / R);
   motor_speeds[3] = int(sqrt(pow(Vx,2)+pow(Vy,2)-2*omega*L*(Vy*cos(5.49779)-Vx*sin(5.49779))+pow(omega,2)*pow(L,2)) / R); 
- }
+ } */
 }
  
- for (int i = 0; i < 4; i++) 
-   analogWrite (motors[i],map(abs(motor_speeds[i]),0,65,0,255));
-   //  Serial.print (motor_speeds[i]); Serial.print (' ');
-// }
-// Serial.println();
+ for (int i = 0; i < 4; i++) {  
+    analogWrite (motors[i],map(abs(motor_speeds[i]),0,100,0,255));
+    Serial.print (motor_speeds[i]); Serial.print (' ');
+ }
+ 
+ Serial.println();
 
 
     //rotation directions are fucked up because Timur is a fuckhead and cannot do manual work properly :
     
-    digitalWrite(MOTOR_1_DIR, (((Vx == 0) && (Vy > 0)) || ((Vx > 0) && (Vy > 0)) || ((Vx > 0) && (Vy == 0))));
-    digitalWrite(MOTOR_2_DIR, (((Vx == 0) && (Vy > 0)) || ((Vx < 0) && (Vy == 0)) || ((Vx < 0) && (Vy > 0))));
-    digitalWrite(MOTOR_3_DIR, (((Vx == 0) && (Vy > 0)) || ((Vx > 0) && (Vy > 0)) || ((Vx > 0) && (Vy == 0))));
-    digitalWrite(MOTOR_4_DIR, (((Vx == 0) && (Vy > 0)) || ((Vx < 0) && (Vy == 0)) || ((Vx < 0) && (Vy > 0))));
+    digitalWrite(MOTOR_1_DIR, (motor_speeds[0] > 0));
+    digitalWrite(MOTOR_2_DIR, (motor_speeds[1] < 0));
+    digitalWrite(MOTOR_3_DIR, (motor_speeds[2] < 0));
+    digitalWrite(MOTOR_4_DIR, (motor_speeds[3] > 0));
     
     if (VelocityControl [0] == 0)
       for (int i = 0; i < 4; i++)
@@ -145,7 +153,8 @@ void Motor_control (uint8_t VelocityControl [7])
 
 void setup() 
 { 
-  //Serial.print(motors_dir[1]);
+   Serial.print(motors_dir[1]);
+  // Motor_control (VelocityControl10);
    for (int i = 0; i < 4; i++)
    {
      pinMode(motors[i], OUTPUT);
@@ -157,11 +166,11 @@ void setup()
       Serial.print(motor_speeds[i]); Serial.print(' '); }
       
    Serial.println('\n');
-   Motor_control (VelocityControl7);
-   //Serial.println("Hi!");
    
-//   Wire.onReceive(returnMessage);
-//   Wire.onRequest(sendGreeting);
+   Serial.println("Hi!");
+   
+  Wire.onReceive(returnMessage);
+  Wire.onRequest(sendGreeting);
 }
 
 void loop() 
