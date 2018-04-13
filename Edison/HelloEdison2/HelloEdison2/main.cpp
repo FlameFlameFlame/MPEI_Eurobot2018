@@ -11,16 +11,31 @@ UltrasonicNavigation us;
 
 int main()
 {
-	using namespace std;
-	vector<int> distances;
-	distances = us.readUSArduino();
-	float k; //coefficient for driving by the wall
+	//using namespace std;
+	//vector<int> distances;
+	////distances = us.readUSArduino();
+	//k.takeControl(&p);
+	//k.startConsole();
 
-	us.initializeController();
+	//us.initializeController();
+	//while (true)
+	//{
+	//	k.control();
+	//	distances = us.readUSArduino();
+	//	for (auto i : distances)
+	//		std::cout << i << ' ';
+	//	std::cout << endl;
+	//}
+ //   return 0;
+
+
+	k.startConsole();
+	k.takeControl(&p);
 	while (true)
 	{
-		us.print();
+		//p.initializeDevice();
+		k.control();
 	}
-    return 0;
+	return 0;
 }
 
