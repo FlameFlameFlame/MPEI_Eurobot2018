@@ -2,18 +2,18 @@
 
 #include "Platform.h"
 #include "Keyboard.h"
+#include "UltrasonicNavigation.h"
 
 Keyboard k;
 Platform p;
+UltrasonicNavigation us;
 
 int main()
 {
-	k.startConsole();
-	k.takeControl(&p);
+	us.initializeController();
 	while (true)
 	{
-		//p.initializeDevice();
-		k.control();
+		us.print();
 	}
     return 0;
 }
