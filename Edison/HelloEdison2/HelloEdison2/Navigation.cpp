@@ -55,6 +55,7 @@ vector<float> Navigation::readArduino() {
 void Navigation::setDestination(float xnew, float ynew) {
 	float x_next = 0;
 	float y_next = 0;
+	using namespace std;
 
 	route = planMovement(xnew, ynew);
 	while (cur_point < ROUTE_RESOLUTION) {
