@@ -6,6 +6,7 @@
 
 #include "controller.h"
 #include "Platform.h"
+#include <iostream>
 #include <mraa.h>
 #include <vector>
 class UltrasonicNavigation :
@@ -20,6 +21,14 @@ public:
 	void releaseAll() { }
 
 	int initializeController();
+
+	void print() {
+		using namespace std;
+
+		for (auto i : readUSArduino())
+			cout << i << '\n';
+		cout << endl;
+	}
 
 private:
 	Platform* controlling;
