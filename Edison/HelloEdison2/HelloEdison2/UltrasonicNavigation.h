@@ -2,7 +2,7 @@
 
 #define I2C_NAV_BUS 1
 #define NAV_ADR 5
-#define US_ADR 6
+#define US_ADR 5
 
 #include "controller.h"
 #include "Platform.h"
@@ -28,7 +28,7 @@ public:
 		using namespace std;
 
 		for (auto i : readUSArduino())
-			cout << i << '\n';
+			cout << i << ' ';
 		cout << endl;
 	}
 

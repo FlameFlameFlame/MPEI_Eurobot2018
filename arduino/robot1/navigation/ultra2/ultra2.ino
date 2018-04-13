@@ -1,5 +1,7 @@
 #include <Ultrasonic.h>
 #include <Wire.h>
+
+#define  MYADR 5
 #define  ULT1Trig 2
 #define  ULT1Echo 3
 #define  ULT2Trig 4
@@ -18,30 +20,30 @@ byte ultras[4];
 
 void Transfer ()
   {
+    ultras[0] = map(ultrasonic1.distanceRead(),2,400,0,255);
+    ultras[1] = map(ultrasonic2.distanceRead(),2,400,0,255);
+    ultras[2] = map(ultrasonic3.distanceRead(),2,400,0,255);
+    ultras[3] = map(ultrasonic4.distanceRead(),2,400,0,255);  
+    
+    Serial.println("Sent!");
     Wire.write(ultras, 4);            // отсылаемое значение  
   }
 
 void setup() 
 {
-  Serial.begin (9600); // подключаем монитор порта
-  Wire.begin(5);
+  Serial.begin (115200); // подключаем монитор порта
+  Wire.begin(MYADR);
   Wire.onRequest(Transfer); 
 }
 
 void loop() 
 {   
-  ultras[0] = map(ultrasonic1.distanceRead(),2,400,0,255);
-  ultras[1] = map(ultrasonic2.distanceRead(),2,400,0,255);
-  ultras[2] = map(ultrasonic3.distanceRead(),2,400,0,255);
-  ultras[3] = map(ultrasonic4.distanceRead(),2,400,0,255);
-  for (int i = 0; i < 4; i++)
+  /*for (int i = 0; i < 4; i++)
   {
     Serial.print(ultras[i]);
     Serial.print(' ');
-  
   }
-  Serial.print('\n');
-  delay(100);
+  Serial.print('\n');*/
 }
 
 
