@@ -13,9 +13,15 @@ UltrasonicNavigation::~UltrasonicNavigation()
 
 }
 
+int UltrasonicNavigation::initializeController()
+{
+	return 0;
+}
+
 int UltrasonicNavigation::takeControl(Platform* p) {
 	controlling = p;
 	controlling->initializeDevice();
+	return 1;
 }
 
 void UltrasonicNavigation::releaseDevice() {

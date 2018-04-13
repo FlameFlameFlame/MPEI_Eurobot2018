@@ -21,6 +21,8 @@ public:
 	void releaseAll() { }
 
 	int initializeController();
+	std::vector<int> readUSArduino();
+	std::vector<float> readArduino();
 
 	void print() {
 		using namespace std;
@@ -32,17 +34,9 @@ public:
 
 private:
 	Platform* controlling;
-	int takeControl(Platform* p);
-	void releaseDevice();
-	void releaseAll() { };
 	void turn(float d_angle);
 
-	int initializeController() { }
-	std::vector<int> readUSArduino();
-
 	mraa::I2c i2c = mraa::I2c(I2C_NAV_BUS);
-	Platform* controlling;
-	std::vector<float> readArduino();
 
 	float abs_float(float x) {
 		if (x >= 0)
